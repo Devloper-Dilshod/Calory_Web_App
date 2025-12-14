@@ -1,16 +1,60 @@
-# React + Vite
+# Calory Web App (React + PHP Version)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a calorie tracking application that uses AI to analyze food images/text and store calorie data.
 
-Currently, two official plugins are available:
+## Architecture
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The project is split into two parts:
 
-## React Compiler
+### 1. Frontend (React + Vite)
+- Located in the `frontend/` directory.
+- Built with React, Tailwind CSS, and Axios.
+- Handles UI, user authentication, and data visualization.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 2. Backend (PHP)
+- Located in the `backend/` directory.
+- Simple PHP API (`api/`) using JSON files (`db/`) for storage.
+- Designed to be deployed on shared hosting (like AlwaysData, XAMPP).
 
-## Expanding the ESLint configuration
+## Installation & Running Locally
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+- Node.js (for Frontend)
+- PHP / XAMPP (for Backend)
+
+### Step 1: Backend Setup
+1. Ensure XAMPP is running (Apache).
+2. The project should be in `c:\xampp\htdocs`.
+3. The backend API is accessible at `http://localhost/Calory%20Web%20App%20-%20Copy/backend/api/`.
+
+### Step 2: Frontend Setup
+1. Open a terminal in `frontend/`:
+   ```sh
+   cd frontend
+   ```
+2. Install dependencies (if not already done):
+   ```sh
+   npm install
+   ```
+3. Start the development server:
+   ```sh
+   npm run dev
+   ```
+4. Open the app in your browser at the URL shown (usually `http://localhost:5173`).
+
+## Deployment
+
+### Frontend (Vercel)
+- Deploy the `frontend` folder to Vercel.
+- Build command: `npm run build`
+- Output directory: `dist`
+
+### Backend (AlwaysData or similar)
+- Upload the `backend` folder to your PHP hosting.
+- Update `frontend/src/services/api.js` with your production API URL.
+
+## Features
+- **AI-Powered Calculation**: Text or Image based calorie estimation.
+- **User System**: Register and Login.
+- **Dark Mode**: Fully supported.
+- **Statistics**: Charts and daily breakdown.
