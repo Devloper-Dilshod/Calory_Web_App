@@ -58,3 +58,7 @@ The project is split into two parts:
 - **User System**: Register and Login.
 - **Dark Mode**: Fully supported.
 - **Statistics**: Charts and daily breakdown.
+
+## Demo
+
+https://calory-web-app.vercel.app/
