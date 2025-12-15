@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Change this URL to match your AlwaysData or Local PHP server URL
 // For local development with XAMPP:
-const API_BASE_URL = 'http://dilshodsayfiddinov12.alwaysdata.net/calory-app/api';
+const API_BASE_URL = 'http://dilshodsayfiddinov12.alwaysdata.net/calory-app';
 
 const api = axios.create({
     baseURL: API_BASE_URL,
