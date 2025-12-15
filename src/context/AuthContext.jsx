@@ -30,10 +30,14 @@ export const AuthProvider = ({ children }) => {
                 localStorage.setItem('user', JSON.stringify(data.user));
                 return { success: true, message: data.message };
             } else {
-                return { success: false, message: data.message };
+                return { success: false, message: data.message, error_code: data.error_code };
             }
         } catch (error) {
-            return { success: false, message: error.message || 'Login failed' };
+            return {
+                success: false,
+                message: error.message || 'Login failed',
+                error_code: error.error_code
+            };
         }
     };
 
@@ -45,10 +49,14 @@ export const AuthProvider = ({ children }) => {
                 localStorage.setItem('user', JSON.stringify(data.user));
                 return { success: true, message: data.message };
             } else {
-                return { success: false, message: data.message };
+                return { success: false, message: data.message, error_code: data.error_code };
             }
         } catch (error) {
-            return { success: false, message: error.message || 'Registration failed' };
+            return {
+                success: false,
+                message: error.message || 'Registration failed',
+                error_code: error.error_code
+            };
         }
     };
 
@@ -67,7 +75,11 @@ export const AuthProvider = ({ children }) => {
             });
             return data;
         } catch (error) {
-            return { success: false, message: error.message };
+            return {
+                success: false,
+                message: error.message,
+                error_code: error.error_code
+            };
         }
     };
 

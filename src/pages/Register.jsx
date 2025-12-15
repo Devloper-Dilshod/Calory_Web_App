@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { UserPlus, Eye, EyeOff } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -10,17 +11,18 @@ const Register = () => {
     const [message, setMessage] = useState({ text: '', type: '' });
     const { register } = useAuth();
     const navigate = useNavigate();
+    const { t } = useLanguage();
 
     // Parol ko'rinish holati
     const [showPassword, setShowPassword] = useState(false);
 
-    // Ro'yxatdan o'tish formasini yuborish
+    // Ro'yxatdan o'tish formasini yuborish va natijani qayta ishlash
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage({ text: '', type: '' });
 
         if (password.length < 6) {
-            setMessage({ text: 'Parol kamida 6 belgidan iborat bo\'lishi kerak.', type: 'error' });
+            setMessage({ text: t('passwordMinLength'), type: 'error' });
             return;
         }
 
@@ -29,7 +31,9 @@ const Register = () => {
             setMessage({ text: result.message, type: 'success' });
             setTimeout(() => navigate('/'), 1000);
         } else {
-            setMessage({ text: result.message, type: 'error' });
+            // Xatolik kodini tekshirib, mos tarjimani chiqarish
+            const errorMsg = result.error_code ? t(result.error_code) : result.message;
+            setMessage({ text: errorMsg, type: 'error' });
         }
     };
 
@@ -38,9 +42,9 @@ const Register = () => {
             <div className="max-w-md mx-auto mt-10 bg-white dark:bg-[#121212] p-8 rounded-2xl shadow-modern transition-all duration-300 hover:shadow-2xl animate-fadeIn">
                 <div className="text-center mb-8">
                     <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100 flex items-center justify-center gap-2">
-                        <UserPlus className="text-blue-500 animate-bounce-slow" /> Ro'yxatdan o'tish
+                        <UserPlus className="text-blue-500 animate-bounce-slow" /> {t('register')}
                     </h2>
-                    <p className="text-gray-500 dark:text-gray-400 mt-2">Yangi hisob yarating</p>
+                    <p className="text-gray-500 dark:text-gray-400 mt-2">{t('createAccount')}</p>
                 </div>
 
                 {message.text && (
@@ -51,7 +55,7 @@ const Register = () => {
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block text-gray-700 dark:text-gray-300 mb-2">Foydalanuvchi nomi</label>
+                        <label className="block text-gray-700 dark:text-gray-300 mb-2">{t('username')}</label>
                         <input
                             type="text"
                             value={username}
@@ -61,7 +65,7 @@ const Register = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-gray-700 dark:text-gray-300 mb-2">Parol</label>
+                        <label className="block text-gray-700 dark:text-gray-300 mb-2">{t('password')}</label>
                         <div className="relative">
                             <input
                                 type={showPassword ? "text" : "password"}
@@ -78,16 +82,16 @@ const Register = () => {
                                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                             </button>
                         </div>
-                        <p className="text-xs text-gray-500 mt-1">Kamida 6 belgi</p>
+                        <p className="text-xs text-gray-500 mt-1">{t('minPassword')}</p>
                     </div>
                     <button
                         type="submit"
                         className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg transition-all duration-300 transform active:scale-95 shadow-md hover:shadow-lg"
                     >
-                        Ro'yxatdan o'tish
+                        {t('register')}
                     </button>
                     <p className="text-center text-gray-600 dark:text-gray-400 mt-4">
-                        Hisobingiz bormi? <Link to="/login" className="text-green-500 hover:text-green-700 font-semibold transition-colors">Kirish</Link>
+                        {t('haveAccount')} <Link to="/login" className="text-green-500 hover:text-green-700 font-semibold transition-colors">{t('login')}</Link>
                     </p>
                 </form>
             </div>

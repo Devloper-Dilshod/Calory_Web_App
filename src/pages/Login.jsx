@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { Bolt, Eye, EyeOff } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -10,11 +11,12 @@ const Login = () => {
     const [message, setMessage] = useState({ text: '', type: '' });
     const { login } = useAuth();
     const navigate = useNavigate();
+    const { t } = useLanguage();
 
     // Parol ko'rinish holati
     const [showPassword, setShowPassword] = useState(false);
 
-    // Kirish formasini yuborish
+    // Kirish formasini yuborish va xatolarni tekshirish
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage({ text: '', type: '' });
@@ -24,7 +26,9 @@ const Login = () => {
             setMessage({ text: result.message, type: 'success' });
             setTimeout(() => navigate('/'), 1000);
         } else {
-            setMessage({ text: result.message, type: 'error' });
+            // Agar server error code qaytarsa, tarjimadan foydalanamiz, aks holda server xabarini chiqaramiz
+            const errorMsg = result.error_code ? t(result.error_code) : result.message;
+            setMessage({ text: errorMsg, type: 'error' });
         }
     };
 
@@ -33,9 +37,9 @@ const Login = () => {
             <div className="max-w-md mx-auto mt-10 bg-white dark:bg-[#121212] p-8 rounded-2xl shadow-modern transition-all duration-300 hover:shadow-2xl animate-fadeIn">
                 <div className="text-center mb-8">
                     <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100 flex items-center justify-center gap-2">
-                        <Bolt className="text-yellow-500 animate-bounce-slow" /> Kirish
+                        <Bolt className="text-yellow-500 animate-bounce-slow" /> {t('login')}
                     </h2>
-                    <p className="text-gray-500 dark:text-gray-400 mt-2">Xush kelibsiz!</p>
+                    <p className="text-gray-500 dark:text-gray-400 mt-2">{t('welcome')}</p>
                 </div>
 
                 {message.text && (
@@ -46,7 +50,7 @@ const Login = () => {
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block text-gray-700 dark:text-gray-300 mb-2">Foydalanuvchi nomi</label>
+                        <label className="block text-gray-700 dark:text-gray-300 mb-2">{t('username')}</label>
                         <input
                             type="text"
                             value={username}
@@ -56,7 +60,7 @@ const Login = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-gray-700 dark:text-gray-300 mb-2">Parol</label>
+                        <label className="block text-gray-700 dark:text-gray-300 mb-2">{t('password')}</label>
                         <div className="relative">
                             <input
                                 type={showPassword ? "text" : "password"}
@@ -78,10 +82,10 @@ const Login = () => {
                         type="submit"
                         className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition-all duration-300 transform active:scale-95 shadow-md hover:shadow-lg"
                     >
-                        Kirish
+                        {t('login')}
                     </button>
                     <p className="text-center text-gray-600 dark:text-gray-400 mt-4">
-                        Hisobingiz yo'qmi? <Link to="/register" className="text-blue-500 hover:text-blue-700 font-semibold transition-colors">Ro'yxatdan o'tish</Link>
+                        {t('noAccount')} <Link to="/register" className="text-blue-500 hover:text-blue-700 font-semibold transition-colors">{t('register')}</Link>
                     </p>
                 </form>
             </div>

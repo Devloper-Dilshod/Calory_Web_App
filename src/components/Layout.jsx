@@ -4,84 +4,67 @@ import { useEffect, useRef } from 'react';
 const Layout = ({ children }) => {
     const canvasRef = useRef(null);
 
+    // Orqa fon animatsiyasini ishga tushirish (Premium Gradient Mesh)
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
         let animationFrameId;
-        let balls = [];
+        let time = 0;
 
-        // Configuration
-        const ballCount = 15;
-        const colors = ['#34D399', '#10B981', '#6EE7B7', '#059669']; // Various shades of green
-        const baseSpeed = 0.5;
-
-        // Resize handler
+        // Ekranni o'lchamini moslashtirish
         const resize = () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            initBalls();
         };
 
-        // Ball class (functional)
-        const createBall = () => {
-            const radius = Math.random() * 20 + 10;
-            return {
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * baseSpeed,
-                vy: (Math.random() - 0.5) * baseSpeed,
-                radius: radius,
-                color: colors[Math.floor(Math.random() * colors.length)],
-                alpha: Math.random() * 0.3 + 0.1
-            };
-        };
-
-        const initBalls = () => {
-            balls = [];
-            for (let i = 0; i < ballCount; i++) {
-                balls.push(createBall());
-            }
-        };
-
-        const updateData = () => {
-            balls.forEach(ball => {
-                ball.x += ball.vx;
-                ball.y += ball.vy;
-
-                // Bounce off walls
-                if (ball.x < 0 || ball.x > canvas.width) ball.vx *= -1;
-                if (ball.y < 0 || ball.y > canvas.height) ball.vy *= -1;
-            });
-        };
-
+        // Chizish funksiyasi
         const draw = () => {
-            // Check for dark mode to adjust colors potentially, or just keep them green/teal as per screenshot
             const isDark = document.documentElement.classList.contains('dark');
+            const width = canvas.width;
+            const height = canvas.height;
 
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, width, height);
 
-            balls.forEach(ball => {
-                ctx.beginPath();
-                ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-                ctx.fillStyle = ball.color;
-                ctx.globalAlpha = isDark ? ball.alpha * 0.5 : ball.alpha; // Dimmer in dark mode
-                ctx.fill();
-            });
+            // Rang palitrasi (Premium Gradient)
+            // Yashil, Moviy va Binafsha ranglarning yumshoq aralashmasi
+            const colors = isDark
+                ? [[16, 185, 129], [59, 130, 246], [139, 92, 246]] // Dark mode: Green, Blue, Violet (chuqurroq)
+                : [[52, 211, 153], [96, 165, 250], [167, 139, 250]]; // Light mode: Soft Green, Blue, Purple
 
-            // Reset alpha
-            ctx.globalAlpha = 1;
+            // Harakatlanuvchi gradientlar yaratish
+            for (let i = 0; i < 3; i++) {
+                const x = width * 0.5 + Math.sin(time * 0.3 + i * 2) * width * 0.3;
+                const y = height * 0.5 + Math.cos(time * 0.4 + i * 1.5) * height * 0.3;
+                const radius = Math.min(width, height) * 0.6;
+
+                const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+                const [r, g, b] = colors[i];
+
+                // Opacity: Dark mode da kamroq, Light mode da ko'proq
+                const alpha = isDark ? 0.15 : 0.25;
+
+                gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${alpha})`);
+                gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+
+                ctx.fillStyle = gradient;
+                ctx.globalCompositeOperation = isDark ? 'screen' : 'multiply'; // Aralashtirish rejimi
+                ctx.fillRect(0, 0, width, height);
+            }
+
+            ctx.globalCompositeOperation = 'source-over'; // Normal holatga qaytarish
+            time += 0.005; // Sekin harakat
         };
 
+        // Animatsiya sikli
         const loop = () => {
-            updateData();
             draw();
             animationFrameId = requestAnimationFrame(loop);
         };
 
         window.addEventListener('resize', resize);
-        resize(); // Initial setup
+        resize();
         loop();
 
         return () => {
@@ -91,16 +74,18 @@ const Layout = ({ children }) => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-[#000000] transition-colors duration-500 relative overflow-hidden font-poppins">
+        <div className="min-h-screen bg-gray-50 dark:bg-[#050505] transition-colors duration-500 relative overflow-hidden font-poppins">
             {/* Background Canvas */}
             <canvas
                 ref={canvasRef}
-                className="absolute inset-0 w-full h-full z-0 pointer-events-none"
+                className="absolute inset-0 w-full h-full z-0 pointer-events-none transition-opacity duration-1000 ease-in-out"
             ></canvas>
 
-            <div className="relative z-10 container mx-auto p-4 md:p-8 min-h-screen">
+            <div className="relative z-10 container mx-auto p-4 md:p-8 min-h-screen flex flex-col">
                 <Header />
-                {children}
+                <main className="flex-grow">
+                    {children}
+                </main>
             </div>
         </div>
     );

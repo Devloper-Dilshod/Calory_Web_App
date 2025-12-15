@@ -1,6 +1,8 @@
 import { X, AlertTriangle } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message }) => {
+    const { t } = useLanguage();
     if (!isOpen) return null;
 
     return (
@@ -31,13 +33,13 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message }) => {
                             onClick={onClose}
                             className="flex-1 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg font-medium transition-colors"
                         >
-                            Yo'q
+                            {t('no')}
                         </button>
                         <button
                             onClick={onConfirm}
                             className="flex-1 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors shadow-md hover:shadow-lg"
                         >
-                            Ha, o'chirish
+                            {t('yesDelete')}
                         </button>
                     </div>
                 </div>

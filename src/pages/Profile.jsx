@@ -3,16 +3,18 @@ import Layout from '../components/Layout';
 import { useAuth } from '../context/AuthContext';
 import { UserCircle, LogOut, Key, X, Eye, EyeOff } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 const Profile = () => {
     const { user, logout, updatePassword } = useAuth();
     const navigate = useNavigate();
+    const { t } = useLanguage();
 
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [message, setMessage] = useState({ text: '', type: '' });
     const [loading, setLoading] = useState(false);
-    
+
     // Parol ko'rinish holatlari
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
@@ -28,13 +30,13 @@ const Profile = () => {
         navigate('/login');
     };
 
-    // Parolni o'zgartirish formasini yuborish
+    // Parolni o'zgartirish formasini yuborish va natijani tekshirish
     const handlePasswordChange = async (e) => {
         e.preventDefault();
         setMessage({ text: '', type: '' });
 
         if (newPassword.length < 6) {
-            setMessage({ text: 'Yangi parol kamida 6 belgidan iborat bo\'lishi kerak.', type: 'error' });
+            setMessage({ text: t('newPasswordMinLength'), type: 'error' });
             return;
         }
 
@@ -47,7 +49,9 @@ const Profile = () => {
             setCurrentPassword('');
             setNewPassword('');
         } else {
-            setMessage({ text: result.message, type: 'error' });
+            // Xatolik kodini tekshirib, mos tarjimani chiqarish
+            const errorMsg = result.error_code ? t(result.error_code) : result.message;
+            setMessage({ text: errorMsg, type: 'error' });
         }
     };
 
@@ -55,29 +59,29 @@ const Profile = () => {
         <Layout>
             <div className="max-w-md mx-auto mt-10 bg-white dark:bg-[#121212] p-8 rounded-2xl shadow-modern transition-all duration-300 hover:shadow-2xl relative animate-fadeIn">
                 {/* Orqaga qaytish (yopish) tugmasi */}
-                <button 
-                    onClick={() => navigate(-1)} 
+                <button
+                    onClick={() => navigate(-1)}
                     className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-                    title="Orqaga"
+                    title={t('back')}
                 >
                     <X size={24} className="text-gray-500 dark:text-gray-400" />
                 </button>
 
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 flex items-center gap-2">
-                        <UserCircle className="text-green-500" /> Profil
+                        <UserCircle className="text-green-500" /> {t('profile')}
                     </h2>
                 </div>
 
                 <div className="mb-8 p-4 bg-gray-50 dark:bg-[#1f1f1f] rounded-xl transform transition hover:scale-[1.02] duration-200">
                     <p className="text-lg text-gray-600 dark:text-gray-300">
-                        Foydalanuvchi: <span className="font-bold text-green-500">{user.username}</span>
+                        {t('currentUser')} <span className="font-bold text-green-500">{user.username}</span>
                     </p>
                 </div>
 
                 <form onSubmit={handlePasswordChange} className="space-y-4 border-t border-gray-200 dark:border-gray-700 pt-6">
                     <h4 className="font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-2">
-                        <Key size={18} /> Parolni almashtirish
+                        <Key size={18} /> {t('changePassword')}
                     </h4>
 
                     {message.text && (
@@ -89,7 +93,7 @@ const Profile = () => {
                     <div className="relative">
                         <input
                             type={showCurrentPassword ? "text" : "password"}
-                            placeholder="Joriy parol"
+                            placeholder={t('currentPassword')}
                             value={currentPassword}
                             onChange={(e) => setCurrentPassword(e.target.value)}
                             className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-[#1f1f1f] dark:text-gray-200 focus:ring-green-500 focus:border-green-500 transition-shadow duration-200 focus:shadow-md"
@@ -106,7 +110,7 @@ const Profile = () => {
                     <div className="relative">
                         <input
                             type={showNewPassword ? "text" : "password"}
-                            placeholder="Yangi parol (min 6 belgi)"
+                            placeholder={t('newPassword')}
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
                             className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-[#1f1f1f] dark:text-gray-200 focus:ring-green-500 focus:border-green-500 transition-shadow duration-200 focus:shadow-md"
@@ -125,7 +129,7 @@ const Profile = () => {
                         disabled={loading}
                         className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 rounded-lg transition-all duration-300 transform active:scale-95 shadow-md hover:shadow-lg"
                     >
-                        {loading ? 'Yangilanmoqda...' : 'Parolni Yangilash'}
+                        {loading ? t('updating') : t('updatePassword')}
                     </button>
                 </form>
 
@@ -134,7 +138,7 @@ const Profile = () => {
                         onClick={handleLogout}
                         className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-lg transition-all duration-300 transform active:scale-95 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
                     >
-                        <LogOut size={20} /> Chiqish
+                        <LogOut size={20} /> {t('logout')}
                     </button>
                 </div>
             </div>

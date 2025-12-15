@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { LogIn, X } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const AuthRequiredModal = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
+    const { t } = useLanguage();
 
     if (!isOpen) return null;
 
@@ -20,10 +22,10 @@ const AuthRequiredModal = ({ isOpen, onClose }) => {
                         <LogIn className="text-green-600 dark:text-green-400" size={32} />
                     </div>
                     <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">
-                        Tizimga kirish talab etiladi
+                        {t('authTitle')}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400 text-sm">
-                        Natijalarni hisoblash va tarixni saqlash uchun avval tizimga kiring yoki ro'yxatdan o'ting.
+                        {t('authMessage')}
                     </p>
                 </div>
 
@@ -32,13 +34,13 @@ const AuthRequiredModal = ({ isOpen, onClose }) => {
                         onClick={() => navigate('/login')}
                         className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-xl transition-colors duration-300 shadow-lg shadow-green-500/30"
                     >
-                        Kirish
+                        {t('login')}
                     </button>
                     <button
                         onClick={() => navigate('/register')}
                         className="w-full bg-white dark:bg-[#1f1f1f] border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 font-semibold py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-[#252525] transition-colors duration-300"
                     >
-                        Ro'yxatdan o'tish
+                        {t('register')}
                     </button>
                 </div>
             </div>

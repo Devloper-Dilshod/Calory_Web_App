@@ -1,11 +1,16 @@
 import { X } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const DetailModal = ({ isOpen, onClose, item }) => {
+    const { t, language } = useLanguage();
+
     if (!isOpen || !item) return null;
 
+    // Sanani tanlangan tilga mos ravishda formatlash
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString('uz-UZ', { year: 'numeric', month: 'long', day: 'numeric' });
+        const locale = language === 'ru' ? 'ru-RU' : (language === 'en' ? 'en-US' : 'uz-UZ');
+        return date.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
     };
 
     return (
@@ -19,27 +24,27 @@ const DetailModal = ({ isOpen, onClose, item }) => {
                 </div>
                 <div className="space-y-3">
                     <div className="flex justify-between border-b dark:border-gray-700 pb-1">
-                        <span className="font-semibold text-gray-600 dark:text-gray-300">Sana:</span>
+                        <span className="font-semibold text-gray-600 dark:text-gray-300">{t('date')}:</span>
                         <span className="font-bold text-green-500 dark:text-green-400">{formatDate(item.log_date)}</span>
                     </div>
                     <div className="flex justify-between border-b dark:border-gray-700 pb-1">
-                        <span className="font-semibold text-gray-600 dark:text-gray-300">Kaloriyalar:</span>
-                        <span className="font-bold text-green-500 dark:text-green-400">{item.calories.toFixed(0)} Kkal</span>
+                        <span className="font-semibold text-gray-600 dark:text-gray-300">{t('calories')}:</span>
+                        <span className="font-bold text-green-500 dark:text-green-400">{item.calories.toFixed(0)} {t('unitKcal')}</span>
                     </div>
                     <div className="flex justify-between border-b dark:border-gray-700 pb-1">
-                        <span className="font-semibold text-gray-600 dark:text-gray-300">Protein:</span>
+                        <span className="font-semibold text-gray-600 dark:text-gray-300">{t('protein')}:</span>
                         <span className="font-bold text-gray-800 dark:text-gray-200">{item.protein.toFixed(1)}g</span>
                     </div>
                     <div className="flex justify-between border-b dark:border-gray-700 pb-1">
-                        <span className="font-semibold text-gray-600 dark:text-gray-300">Yogʻ:</span>
+                        <span className="font-semibold text-gray-600 dark:text-gray-300">{t('fat')}:</span>
                         <span className="font-bold text-gray-800 dark:text-gray-200">{item.fat.toFixed(1)}g</span>
                     </div>
                     <div className="flex justify-between border-b dark:border-gray-700 pb-1">
-                        <span className="font-semibold text-gray-600 dark:text-gray-300">Uglevod:</span>
+                        <span className="font-semibold text-gray-600 dark:text-gray-300">{t('carbs')}:</span>
                         <span className="font-bold text-gray-800 dark:text-gray-200">{item.carbs.toFixed(1)}g</span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="font-semibold text-gray-600 dark:text-gray-300">Kletchatka:</span>
+                        <span className="font-semibold text-gray-600 dark:text-gray-300">{t('fiber')}:</span>
                         <span className="font-bold text-gray-800 dark:text-gray-200">{(item.fiber || 0).toFixed(1)}g</span>
                     </div>
                 </div>

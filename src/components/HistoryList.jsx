@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { ChevronRight, Trash2 } from 'lucide-react';
 import DetailModal from './DetailModal';
+import { useLanguage } from '../context/LanguageContext';
 
 const HistoryList = ({ history, onClear }) => {
     const [selectedItem, setSelectedItem] = useState(null);
+    const { t, language } = useLanguage();
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -12,16 +14,17 @@ const HistoryList = ({ history, onClear }) => {
         yesterday.setDate(today.getDate() - 1);
 
         if (dateString === today.toISOString().split('T')[0]) {
-            return 'Bugun';
+            return t('today');
         } else if (dateString === yesterday.toISOString().split('T')[0]) {
-            return 'Kecha';
+            return t('yesterday');
         } else {
-            return date.toLocaleDateString('uz-UZ', { year: 'numeric', month: 'long', day: 'numeric' });
+            const locale = language === 'ru' ? 'ru-RU' : (language === 'en' ? 'en-US' : 'uz-UZ');
+            return date.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
         }
     };
 
     if (!history || history.length === 0) {
-        return <p className="text-center text-gray-500 dark:text-gray-400 py-10">Hali hech qanday kirim yoʻq.</p>;
+        return <p className="text-center text-gray-500 dark:text-gray-400 py-10">{t('noHistory')}</p>;
     }
 
     const groupedHistory = history.reduce((acc, item) => {
@@ -51,7 +54,7 @@ const HistoryList = ({ history, onClear }) => {
                                 <p className="text-sm text-gray-500 dark:text-gray-400">{item.calories.toFixed(0)} Kkal</p>
                             </div>
                             <button className="text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-500 text-sm font-medium flex items-center">
-                                Batafsil <ChevronRight size={16} />
+                                {t('details')} <ChevronRight size={16} />
                             </button>
                         </div>
                     ))}
@@ -63,7 +66,7 @@ const HistoryList = ({ history, onClear }) => {
                     onClick={onClear}
                     className="text-sm text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium transition-colors flex items-center justify-center w-full gap-2"
                 >
-                    <Trash2 size={16} /> Tarixni Tozalash
+                    <Trash2 size={16} /> {t('clearHistory')}
                 </button>
             </div>
 

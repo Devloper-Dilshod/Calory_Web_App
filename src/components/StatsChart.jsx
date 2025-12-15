@@ -10,6 +10,7 @@ import {
     Legend,
 } from 'chart.js';
 import { BarChart3, PieChart, Activity, TrendingUp } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 ChartJS.register(
     CategoryScale,
@@ -22,8 +23,10 @@ ChartJS.register(
 );
 
 const StatsChart = ({ history }) => {
+    const { t, language } = useLanguage();
+
     if (!history || history.length === 0) {
-        return <p className="text-center text-gray-500 dark:text-gray-400 py-10 w-full animate-fadeIn">Statistikani koʻrish uchun kiritma boʻlishi kerak.</p>;
+        return <p className="text-center text-gray-500 dark:text-gray-400 py-10 w-full animate-fadeIn">{t('noStats')}</p>;
     }
 
     // --- Data Processing ---
@@ -40,11 +43,13 @@ const StatsChart = ({ history }) => {
     const last7DaysLabels = [];
     const last7DaysData = [];
 
+    const locale = language === 'ru' ? 'ru-RU' : (language === 'en' ? 'en-US' : 'uz-UZ');
+
     for (let i = 6; i >= 0; i--) {
         const d = new Date(today);
         d.setDate(today.getDate() - i);
         const dateStr = d.toISOString().split('T')[0];
-        const displayDate = d.toLocaleDateString('uz-UZ', { day: 'numeric', month: 'short' });
+        const displayDate = d.toLocaleDateString(locale, { day: 'numeric', month: 'short' });
 
         last7DaysLabels.push(displayDate);
         last7DaysData.push(dailyTotals[dateStr] || 0);
@@ -54,7 +59,7 @@ const StatsChart = ({ history }) => {
         labels: last7DaysLabels,
         datasets: [
             {
-                label: 'Kaloriya (Kkal)',
+                label: t('calories'),
                 data: last7DaysData,
                 backgroundColor: 'rgba(34, 197, 94, 0.8)', // green-500
                 hoverBackgroundColor: 'rgba(34, 197, 94, 1)',
@@ -73,7 +78,7 @@ const StatsChart = ({ history }) => {
                 padding: 10,
                 cornerRadius: 8,
                 callbacks: {
-                    label: (context) => context.raw + ' Kkal'
+                    label: (context) => context.raw + ' ' + t('unitKcal')
                 }
             }
         },
@@ -104,7 +109,7 @@ const StatsChart = ({ history }) => {
     const showDoughnut = todayMacros.calories > 0;
 
     const doughnutData = {
-        labels: ['Protein', 'Yogʻ', 'Uglevod'],
+        labels: [t('protein'), t('fat'), t('carbs')],
         datasets: [
             {
                 data: [todayMacros.protein, todayMacros.fat, todayMacros.carbs],
@@ -162,19 +167,19 @@ const StatsChart = ({ history }) => {
                 {/* Visual 1: Doughnut Chart (Today) */}
                 <div className="bg-white dark:bg-[#1f1f1f] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 flex flex-col items-center">
                     <h3 className="text-lg font-bold mb-4 text-gray-800 dark:text-gray-100 flex items-center gap-2 w-full">
-                        <PieChart size={20} className="text-purple-500" /> Bugungi Balans
+                        <PieChart size={20} className="text-purple-500" /> {t('todaysBalance')}
                     </h3>
                     <div className="h-64 w-full relative flex items-center justify-center">
                         {showDoughnut ? (
                             <>
                                 <Doughnut data={doughnutData} options={doughnutOptions} />
-                                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
                                     <p className="text-3xl font-bold text-gray-800 dark:text-gray-100">{Math.round(todayMacros.calories)}</p>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400">Kkal</p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">{t('unitKcal')}</p>
                                 </div>
                             </>
                         ) : (
-                            <p className="text-gray-400 text-sm text-center">Bugun hali ma'lumot yo'q</p>
+                            <p className="text-gray-400 text-sm text-center">{t('noDataToday')}</p>
                         )}
                     </div>
                 </div>
@@ -182,7 +187,7 @@ const StatsChart = ({ history }) => {
                 {/* Visual 2: Weekly Bar Chart */}
                 <div className="bg-white dark:bg-[#1f1f1f] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
                     <h3 className="text-lg font-bold mb-4 text-gray-800 dark:text-gray-100 flex items-center gap-2">
-                        <BarChart3 size={20} className="text-green-500" /> 7 Kunlik Dinamika
+                        <BarChart3 size={20} className="text-green-500" /> {t('sevenDaysDynamics')}
                     </h3>
                     <div className="h-64 w-full">
                         <Bar data={barData} options={barOptions} />
@@ -193,26 +198,26 @@ const StatsChart = ({ history }) => {
             {/* Bottom Row: 30-Day Averages Cards */}
             <div className="bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-2xl">
                 <h3 className="text-lg font-bold mb-6 text-gray-800 dark:text-gray-100 flex items-center gap-2">
-                    <TrendingUp size={20} className="text-blue-500" /> Oʻrtacha Kunlik Koʻrsatkichlar (30 kun)
+                    <TrendingUp size={20} className="text-blue-500" /> {t('avgDaily')}
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="p-4 bg-white dark:bg-[#1f1f1f] rounded-xl shadow-sm border-l-4 border-blue-500 flex items-center justify-between hover:shadow-md transition-shadow">
                         <div>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">Protein</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{t('protein')}</p>
                             <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{avgStats.protein}g</p>
                         </div>
                         <Activity size={24} className="text-blue-100 dark:text-blue-900" />
                     </div>
                     <div className="p-4 bg-white dark:bg-[#1f1f1f] rounded-xl shadow-sm border-l-4 border-yellow-500 flex items-center justify-between hover:shadow-md transition-shadow">
                         <div>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">Yogʻlar</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{t('fat')}</p>
                             <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{avgStats.fat}g</p>
                         </div>
                         <Activity size={24} className="text-yellow-100 dark:text-yellow-900" />
                     </div>
                     <div className="p-4 bg-white dark:bg-[#1f1f1f] rounded-xl shadow-sm border-l-4 border-purple-500 flex items-center justify-between hover:shadow-md transition-shadow">
                         <div>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">Uglevod</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{t('carbs')}</p>
                             <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{avgStats.carbs}g</p>
                         </div>
                         <Activity size={24} className="text-purple-100 dark:text-purple-900" />

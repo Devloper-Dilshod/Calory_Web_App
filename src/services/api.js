@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Change this URL to match your AlwaysData or Local PHP server URL
 // For local development with XAMPP:
-const API_BASE_URL = 'http://localhost/Calory_Web_app/backend/api/';
+const API_BASE_URL = 'http://dilshodsayfiddinov12.alwaysdata.net/calory-app/';
 
 const api = axios.create({
     baseURL: API_BASE_URL,
@@ -33,7 +33,7 @@ export const authAPI = {
 };
 
 export const calcAPI = {
-    calculate: (prompt, imageData) => api.post('calculate.php', { prompt, image_data: imageData }),
+    calculate: (prompt, imageData, language = 'uz') => api.post('calculate.php', { prompt, image_data: imageData, language }),
 };
 
 export const dataAPI = {
