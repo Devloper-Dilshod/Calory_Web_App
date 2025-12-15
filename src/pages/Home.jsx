@@ -140,6 +140,15 @@ const Home = () => {
         }
     };
 
+    // Auto-submit when image is selected
+    useEffect(() => {
+        if (selectedImage && imagePreview) {
+            handleCalculate();
+        }
+    }, [imagePreview]); // Trigger when preview is ready
+
+    // ...
+
     return (
         <Layout>
             <AuthRequiredModal
@@ -156,41 +165,73 @@ const Home = () => {
             />
 
             <div className="bg-white dark:bg-[#121212] rounded-2xl shadow-modern p-6 mb-8 transition-colors duration-300">
-                <div className="flex flex-col md:flex-row gap-4 items-stretch">
-                    <input
-                        type="text"
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        placeholder="Taom nomini yozing (masalan, 100g osh)"
-                        className="flex-grow p-3 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-[#1f1f1f] dark:text-gray-200 focus:ring-green-500 focus:border-green-500"
-                    />
+                <div className="flex flex-col gap-6">
+                    {/* Text Input Section */}
+                    <div className="flex gap-2">
+                        <input
+                            type="text"
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && handleCalculate()}
+                            placeholder="Taom nomini yozing (masalan, 100g osh)"
+                            className="flex-grow p-4 border border-gray-300 dark:border-gray-700 rounded-xl dark:bg-[#1f1f1f] dark:text-gray-200 focus:ring-2 focus:ring-green-500 focus:border-transparent text-lg shadow-sm"
+                        />
+                        <button
+                            onClick={handleCalculate}
+                            disabled={loading || !input.trim()}
+                            className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            <Search className="w-6 h-6" />
+                        </button>
+                    </div>
 
+                    {/* Divider 'YOKI' */}
+                    <div className="relative flex items-center py-2">
+                        <div className="flex-grow border-t border-gray-300 dark:border-gray-700"></div>
+                        <span className="flex-shrink-0 mx-4 text-gray-400 dark:text-gray-500 font-medium uppercase tracking-wider text-sm">Yoki</span>
+                        <div className="flex-grow border-t border-gray-300 dark:border-gray-700"></div>
+                    </div>
+
+                    {/* Image Upload Section */}
                     <label className={clsx(
-                        "flex-shrink-0 flex items-center justify-center w-full md:w-32 border-2 border-dashed rounded-lg cursor-pointer transition-colors duration-300 min-h-[50px]",
-                        imagePreview ? "border-green-500 bg-green-50 dark:bg-green-900/20" : "border-gray-400 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#1a1a1a]"
+                        "relative flex flex-col items-center justify-center w-full border-2 border-dashed rounded-2xl cursor-pointer transition-all duration-300 group min-h-[160px]",
+                        imagePreview
+                            ? "border-green-500 bg-green-50 dark:bg-green-900/10"
+                            : "border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#1a1a1a] hover:border-green-400"
                     )}>
-                        <div className="text-center p-2 relative overflow-hidden">
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center">
                             {imagePreview ? (
-                                <img src={imagePreview} alt="Preview" className="h-8 w-8 object-cover mx-auto rounded-full" />
+                                <div className="relative">
+                                    <img src={imagePreview} alt="Preview" className="h-32 object-contain rounded-lg shadow-md" />
+                                    {loading && (
+                                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg">
+                                            <Loader2 className="w-8 h-8 text-white animate-spin" />
+                                        </div>
+                                    )}
+                                </div>
                             ) : (
-                                <ImageIcon className="text-xl text-green-500 mx-auto mb-1" />
+                                <>
+                                    <div className="p-4 bg-green-100 dark:bg-green-900/30 rounded-full mb-3 group-hover:scale-110 transition-transform duration-300">
+                                        <ImageIcon className="w-8 h-8 text-green-600 dark:text-green-400" />
+                                    </div>
+                                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                        <span className="font-semibold text-gray-700 dark:text-gray-200">Rasm yuklash uchun bosing</span> yoki kameradan oling
+                                    </p>
+                                    <p className="text-xs text-gray-400 dark:text-gray-500">PNG, JPG (max. 5MB)</p>
+                                </>
                             )}
-                            <p className="text-xs font-semibold text-gray-600 dark:text-gray-300">
-                                {selectedImage ? 'Rasm tanlandi' : 'Rasm yuklang'}
-                            </p>
                         </div>
-                        <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+                        <input
+                            type="file"
+                            accept="image/*"
+                            capture="environment"
+                            onChange={handleImageChange}
+                            className="hidden"
+                            disabled={loading}
+                        />
                     </label>
-
-                    <button
-                        onClick={handleCalculate}
-                        disabled={loading}
-                        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center min-w-[120px]"
-                    >
-                        {loading ? <Loader2 className="animate-spin mr-2" /> : <Search className="mr-2" />}
-                        Hisoblash
-                    </button>
                 </div>
+
                 {error && <p className="text-red-500 text-sm mt-3">{error}</p>}
                 {!user && <p className="text-yellow-600 text-xs mt-2">Natijalarni saqlash uchun tizimga kiring.</p>}
             </div>
