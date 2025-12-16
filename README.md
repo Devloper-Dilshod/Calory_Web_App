@@ -1,64 +1,114 @@
-# Calory Web App (React + PHP Version)
+# Calory Web App - Kaloriya Hisoblagich
 
-This project is a calorie tracking application that uses AI to analyze food images/text and store calorie data.
+Sun'iy intellekt yordamida ovqat rasmlarini va matnlarini tahlil qilib, kaloriyalarni hisoblaydigan veb-ilova.
 
-## Architecture
+## 📸 Skrinshot'lar
 
-The project is split into two parts:
+### Bosh sahifa
+![Bosh sahifa](public/screenshots/home.png)
+
+### Hisoblash
+![Hisoblash](public/screenshots/calculate.png)
+
+### Tarix
+![Tarix](public/screenshots/history.png)
+
+### Statistika
+![Statistika](public/screenshots/stats.png)
+
+### Qorong'u rejim
+![Qorong'u rejim](public/screenshots/darkmode.png)
+
+### Profil
+![Profil](public/screenshots/profile.png)
+
+### Kirish
+![Kirish](public/screenshots/login.png)
+
+### Ro'yxatdan o'tish
+![Ro'yxatdan o'tish](public/screenshots/register.png)
+
+### Ko'p tillilik (Ingliz tili)
+![Ingliz tili](public/screenshots/language_eng.png)
+
+### Ko'p tillilik (Rus tili)
+![Rus tili](public/screenshots/laguage_ru.png)
+
+## 🌐 Demo
+
+https://calory-web-app.vercel.app/
+
+## 🏗️ Arxitektura
+
+Loyiha ikki qismdan iborat:
 
 ### 1. Frontend (React + Vite)
-- Located in the `frontend/` directory.
-- Built with React, Tailwind CSS, and Axios.
-- Handles UI, user authentication, and data visualization.
+- `frontend/` papkasida joylashgan
+- React, Tailwind CSS va Axios yordamida qurilgan
+- Foydalanuvchi interfeysi, autentifikatsiya va ma'lumotlarni vizualizatsiya qilish
 
 ### 2. Backend (PHP)
-- Located in the `backend/` directory.
-- Simple PHP API (`api/`) using JSON files (`db/`) for storage.
-- Designed to be deployed on shared hosting (like AlwaysData, XAMPP).
+- `backend/` papkasida joylashgan
+- Oddiy PHP API (`api/`) va JSON fayllari (`db/`) orqali ma'lumotlarni saqlash
+- Umumiy hosting xizmatlarida (AlwaysData, XAMPP) ishlatish uchun mo'ljallangan
 
-## Installation & Running Locally
+## 🚀 O'rnatish va mahalliy ishga tushirish
 
-### Prerequisites
-- Node.js (for Frontend)
-- PHP / XAMPP (for Backend)
+### Talablar
+- Node.js (Frontend uchun)
+- PHP / XAMPP (Backend uchun)
 
-### Step 1: Backend Setup
-1. Ensure XAMPP is running (Apache).
-2. The project should be in `c:\xampp\htdocs`.
-3. The backend API is accessible at `http://localhost/Calory%20Web%20App%20-%20Copy/backend/api/`.
+### 1-qadam: Backend sozlash
+1. XAMPP ishga tushirilganligiga ishonch hosil qiling (Apache)
+2. Loyiha `c:\xampp\htdocs` papkasida bo'lishi kerak
+3. Backend API manzili: `http://localhost/Calory_Web_app/backend/api/`
 
-### Step 2: Frontend Setup
-1. Open a terminal in `frontend/`:
+### 2-qadam: Frontend sozlash
+1. Terminal orqali `frontend/` papkasiga o'ting:
    ```sh
    cd frontend
    ```
-2. Install dependencies (if not already done):
+2. Kerakli kutubxonalarni o'rnating:
    ```sh
    npm install
    ```
-3. Start the development server:
+3. Ishlab chiqish serverini ishga tushiring:
    ```sh
    npm run dev
    ```
-4. Open the app in your browser at the URL shown (usually `http://localhost:5173`).
+4. Brauzerda ko'rsatilgan manzilda ilovani oching (odatda `http://localhost:5173`)
 
-## Deployment
+## 📦 Joylashtirish (Deployment)
 
 ### Frontend (Vercel)
-- Deploy the `frontend` folder to Vercel.
-- Build command: `npm run build`
-- Output directory: `dist`
+- `frontend` papkasini Vercel'ga yuklang
+- Build buyrug'i: `npm run build`
+- Chiqish papkasi: `dist`
 
-### Backend (AlwaysData or similar)
-- Upload the `backend` folder to your PHP hosting.
-- Update `frontend/src/services/api.js` with your production API URL.
+### Backend (AlwaysData yoki boshqa PHP hosting)
+- `backend` papkasini PHP hosting'ga yuklang
+- `frontend/src/services/api.js` faylidagi API manzilini yangilang
 
-## Features
-- **AI-Powered Calculation**: Text or Image based calorie estimation.
-- **User System**: Register and Login.
-- **Dark Mode**: Fully supported.
-- **Statistics**: Charts and daily breakdown.
+## ✨ Imkoniyatlar
 
-## Demo
+- **Sun'iy intellekt bilan hisoblash**: Matn yoki rasm orqali kaloriyalarni baholash
+- **Foydalanuvchi tizimi**: Ro'yxatdan o'tish va kirish
+- **Qorong'u rejim**: To'liq qo'llab-quvvatlanadi
+- **Statistika**: Diagrammalar va kunlik tahlil
+- **Ko'p tillilik**: O'zbek, Rus va Ingliz tillari
 
-https://calory-web-app.vercel.app/
+## 🛠️ Texnologiyalar
+
+**Frontend:**
+- React 18
+- Vite
+- Tailwind CSS
+- Axios
+- Chart.js
+- Lucide Icons
+
+**Backend:**
+- PHP
+- JSON fayl bazasi
+- Open Router APi
+
