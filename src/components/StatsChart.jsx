@@ -29,11 +29,11 @@ const StatsChart = ({ history }) => {
         return <p className="text-center text-gray-500 dark:text-gray-400 py-10 w-full animate-fadeIn">{t('noStats')}</p>;
     }
 
-    // --- Data Processing ---
+    // --- Ma'lumotlarni qayta ishlash ---
     const today = new Date();
     const todayStr = today.toISOString().split('T')[0];
 
-    // 1. Last 7 Days Calories (Bar Chart)
+    // 1. So'nggi 7 kunlik kaloriyalar (Bar diagrammasi)
     const dailyTotals = history.reduce((acc, item) => {
         const date = item.log_date;
         acc[date] = (acc[date] || 0) + item.calories;
@@ -97,7 +97,7 @@ const StatsChart = ({ history }) => {
         animation: { duration: 2000, easing: 'easeOutQuart' }
     };
 
-    // 2. Today's Macros (Doughnut Chart)
+    // 2. Bugungi makronutrientlar (Doughnut diagrammasi)
     const todaysItems = history.filter(item => item.log_date === todayStr);
     const todayMacros = todaysItems.reduce((acc, item) => ({
         protein: acc.protein + item.protein,
@@ -143,7 +143,7 @@ const StatsChart = ({ history }) => {
         animation: { animateScale: true, animateRotate: true }
     };
 
-    // 3. Averages (30 Days) calculation remains similar
+    // 3. O'rtacha ko'rsatkichlar (30 kunlik)
     const thirtyDaysHistory = history.filter(item => {
         const itemDate = new Date(item.log_date);
         const diffTime = Math.abs(today - itemDate);
@@ -162,9 +162,9 @@ const StatsChart = ({ history }) => {
 
     return (
         <div className="space-y-8 animate-fadeIn">
-            {/* Top Row: Today's Overview & Chart */}
+            {/* Yuqori qator: Bugungi umumiy ko'rinish va diagramma */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Visual 1: Doughnut Chart (Today) */}
+                {/* 1-vizual: Doughnut diagrammasi (Bugun) */}
                 <div className="bg-white dark:bg-[#1f1f1f] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 flex flex-col items-center">
                     <h3 className="text-lg font-bold mb-4 text-gray-800 dark:text-gray-100 flex items-center gap-2 w-full">
                         <PieChart size={20} className="text-purple-500" /> {t('todaysBalance')}
@@ -184,7 +184,7 @@ const StatsChart = ({ history }) => {
                     </div>
                 </div>
 
-                {/* Visual 2: Weekly Bar Chart */}
+                {/* 2-vizual: Hafta davomidagi Bar diagrammasi */}
                 <div className="bg-white dark:bg-[#1f1f1f] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
                     <h3 className="text-lg font-bold mb-4 text-gray-800 dark:text-gray-100 flex items-center gap-2">
                         <BarChart3 size={20} className="text-green-500" /> {t('sevenDaysDynamics')}
@@ -195,7 +195,7 @@ const StatsChart = ({ history }) => {
                 </div>
             </div>
 
-            {/* Bottom Row: 30-Day Averages Cards */}
+            {/* Pastki qator: 30 kunlik o'rtacha ko'rsatkichlar kartalari */}
             <div className="bg-gray-50 dark:bg-[#1a1a1a] p-6 rounded-2xl">
                 <h3 className="text-lg font-bold mb-6 text-gray-800 dark:text-gray-100 flex items-center gap-2">
                     <TrendingUp size={20} className="text-blue-500" /> {t('avgDaily')}

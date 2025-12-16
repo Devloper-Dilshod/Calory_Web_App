@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Change this URL to match your AlwaysData or Local PHP server URL
-// For local development with XAMPP:
+
+// Server URL manzilini o'zgartirish (AlwaysData yoki mahalliy server uchun)
 const API_BASE_URL = 'https://dilshodsayfiddinov12.alwaysdata.net/calory-app';
 
 const api = axios.create({
@@ -13,9 +13,7 @@ const api = axios.create({
 
 api.interceptors.response.use(
     (response) => {
-        // PHP API returns { success: true, ... } or { success: false, message: ... }
-        // Sometimes it just returns the data. 
-        // We standardized it to return { success: true/false, ... } in our PHP updates.
+        // API javoblarini qabul qilish va ularni standartlashtirish
         return response.data;
     },
     (error) => {

@@ -75,7 +75,7 @@ const Layout = ({ children }) => {
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-[#050505] transition-colors duration-500 relative overflow-hidden font-poppins">
-            {/* Background Canvas */}
+            {/* Orqa fon kanvasi */}
             <canvas
                 ref={canvasRef}
                 className="absolute inset-0 w-full h-full z-0 pointer-events-none transition-opacity duration-1000 ease-in-out"

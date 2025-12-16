@@ -3,7 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import { LanguageProvider } from './context/LanguageContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
-// Placeholder for Home, we'll create it next
+// Bosh sahifa uchun import
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 
@@ -17,7 +17,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
-            {/* Add more routes as needed */}
+            {/* Qo'shimcha yo'nalishlar shu yerga qo'shiladi */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Router>
