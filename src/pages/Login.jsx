@@ -31,7 +31,7 @@ const Login = () => {
             setMessage({ text: errorMsg, type: 'error' });
         }
     };
-
+    // Login formasi
     return (
         <Layout>
             <div className="max-w-md mx-auto mt-10 bg-white dark:bg-[#121212] p-8 rounded-2xl shadow-modern transition-all duration-300 hover:shadow-2xl animate-fadeIn">

@@ -4,22 +4,22 @@ import { translations } from '../utils/translations';
 const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
-    // Read from localStorage or default to 'uz'
+    // Dufuat til uzbek tiligini o'rnatamiz
     const [language, setLanguageState] = useState(() => {
         return localStorage.getItem('language') || 'uz';
     });
-
+// Tilni o'zgartirish funksiyasi
     const setLanguage = (lang) => {
         if (translations[lang]) {
             setLanguageState(lang);
             localStorage.setItem('language', lang);
         }
     };
-
+// Til o'zgarishini kuzatib boramiz
     const t = (key) => {
         return translations[language][key] || key;
     };
-
+    // Til o'zgarganda localStorage yangilanadi
     return (
         <LanguageContext.Provider value={{ language, setLanguage, t }}>
             {children}

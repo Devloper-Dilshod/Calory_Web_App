@@ -11,7 +11,7 @@ import ConfirmationModal from '../components/ConfirmationModal';
 import { calcAPI, dataAPI } from '../services/api';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
-
+// Home sahifasidagi componentlar
 const Home = () => {
     const { user } = useAuth();
     const { t, language } = useLanguage();
