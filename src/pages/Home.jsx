@@ -8,14 +8,19 @@ import HistoryList from '../components/HistoryList';
 import StatsChart from '../components/StatsChart';
 import AuthRequiredModal from '../components/AuthRequiredModal';
 import ConfirmationModal from '../components/ConfirmationModal';
+import LoadingModal from '../components/LoadingModal';
+import NetworkError from '../components/NetworkError';
 import { calcAPI, dataAPI } from '../services/api';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
+
 // Home sahifasidagi componentlar
 const Home = () => {
     const { user } = useAuth();
     const { t, language } = useLanguage();
     const navigate = useNavigate();
+    const resultRef = useRef(null); // Ref for scrolling
+
     const [activeTab, setActiveTab] = useState('result');
     const [input, setInput] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
@@ -23,8 +28,10 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [result, setResult] = useState(null);
+    const [resultImage, setResultImage] = useState(null); // To show in ResultCard
     const [history, setHistory] = useState([]);
     const [loadingHistory, setLoadingHistory] = useState(false);
+    const [isNetworkError, setIsNetworkError] = useState(false); // New state for network error
 
     // Modals
     const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -65,10 +72,7 @@ const Home = () => {
     };
 
     const handleCalculate = async () => {
-        if (!user) {
-            setAuthModalOpen(true);
-            return;
-        }
+        // Guest allowed
         if (!input.trim() && !selectedImage) {
             setError(t('errorInput'));
             return;
@@ -77,6 +81,7 @@ const Home = () => {
         setLoading(true);
         setError('');
         setResult(null);
+        setIsNetworkError(false);
 
         try {
             // Prepare image data if any
@@ -91,11 +96,12 @@ const Home = () => {
                 const parsedResult = JSON.parse(response.text);
                 setResult(parsedResult);
 
-                // Save if logged in (user is guaranteed here by check above)
+                // Save if logged in
                 if (user) {
                     await dataAPI.saveEntry({
                         user_id: user.id,
                         food_name: parsedResult.food_name,
+                        description: parsedResult.description,
                         calories: parsedResult.calories,
                         protein: parsedResult.protein,
                         fat: parsedResult.fat,
@@ -106,15 +112,26 @@ const Home = () => {
                     loadHistory();
                 }
 
+                setResultImage(imageData); // Persist for display
                 setInput('');
                 setSelectedImage(null);
                 setImagePreview(null);
+
+                // Auto-scroll to result
+                setTimeout(() => {
+                    resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+
             } else {
                 setError(response.error || t('calcError'));
             }
 
         } catch (err) {
-            setError(err.message || t('serverError'));
+            if (err.message === 'Network Error' || err.code === 'ERR_NETWORK') {
+                setIsNetworkError(true);
+            } else {
+                setError(err.message || t('serverError'));
+            }
         } finally {
             setLoading(false);
         }
@@ -147,12 +164,16 @@ const Home = () => {
         if (selectedImage && imagePreview) {
             handleCalculate();
         }
-    }, [imagePreview]); // Trigger when preview is ready
+    }, [imagePreview]);
 
-    // ...
+    if (isNetworkError) {
+        return <NetworkError onRetry={() => window.location.reload()} />;
+    }
 
     return (
         <Layout>
+            <LoadingModal isOpen={loading} />
+
             <AuthRequiredModal
                 isOpen={authModalOpen}
                 onClose={() => setAuthModalOpen(false)}
@@ -195,50 +216,56 @@ const Home = () => {
                     </div>
 
                     {/* Image Upload Section */}
-                    <label className={clsx(
-                        "relative flex flex-col items-center justify-center w-full border-2 border-dashed rounded-2xl cursor-pointer transition-all duration-300 group min-h-[160px]",
-                        imagePreview
-                            ? "border-green-500 bg-green-50 dark:bg-green-900/10"
-                            : "border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#1a1a1a] hover:border-green-400"
-                    )}>
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center px-4">
-                            {imagePreview ? (
-                                <div className="relative">
-                                    <img src={imagePreview} alt="Preview" className="h-32 object-contain rounded-lg shadow-md" />
-                                    {loading && (
-                                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg">
-                                            <Loader2 className="w-8 h-8 text-white animate-spin" />
-                                        </div>
-                                    )}
-                                </div>
-                            ) : (
-                                <>
-                                    <div className="p-4 bg-green-100 dark:bg-green-900/30 rounded-full mb-3 group-hover:scale-110 transition-transform duration-300">
-                                        <ImageIcon className="w-8 h-8 text-green-600 dark:text-green-400" />
+                    {/* Image Upload Section - LoggedIn Check */}
+                    {user ? (
+                        <label className={clsx(
+                            "relative flex flex-col items-center justify-center w-full border-2 border-dashed rounded-2xl cursor-pointer transition-all duration-300 group min-h-[160px]",
+                            imagePreview
+                                ? "border-green-500 bg-green-50 dark:bg-green-900/10"
+                                : "border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#1a1a1a] hover:border-green-400"
+                        )}>
+                            <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center px-4">
+                                {imagePreview ? (
+                                    <div className="relative">
+                                        <img src={imagePreview} alt="Preview" className="h-32 object-contain rounded-lg shadow-md" />
+                                        {/* Removed inline loader since we have modal */}
                                     </div>
-                                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                        <span className="font-semibold text-gray-700 dark:text-gray-200">{t('uploadText')}</span> {t('cameraText')}
-                                    </p>
-                                    <p className="text-xs text-gray-400 dark:text-gray-500">{t('formats')}</p>
-                                </>
-                            )}
+                                ) : (
+                                    <>
+                                        <div className="p-4 bg-green-100 dark:bg-green-900/30 rounded-full mb-3 group-hover:scale-110 transition-transform duration-300">
+                                            <ImageIcon className="w-8 h-8 text-green-600 dark:text-green-400" />
+                                        </div>
+                                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                            <span className="font-semibold text-gray-700 dark:text-gray-200">{t('uploadText')}</span> {t('cameraText')}
+                                        </p>
+                                        <p className="text-xs text-gray-400 dark:text-gray-500">{t('formats')}</p>
+                                    </>
+                                )}
+                            </div>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                capture="environment"
+                                onChange={handleImageChange}
+                                className="hidden"
+                                disabled={loading}
+                            />
+                        </label>
+                    ) : (
+                        <div className="relative flex flex-col items-center justify-center w-full border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-2xl min-h-[120px] bg-gray-50 dark:bg-[#1a1a1a]/50 text-center px-4 select-none opacity-70 cursor-not-allowed">
+                            <div className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full mb-2">
+                                <ImageIcon className="w-6 h-6 text-gray-400" />
+                            </div>
+                            <p className="text-sm text-gray-400">{t('loginToUpload') || "Rasm yuklash uchun ro'yxatdan o'ting"}</p>
                         </div>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            capture="environment"
-                            onChange={handleImageChange}
-                            className="hidden"
-                            disabled={loading}
-                        />
-                    </label>
+                    )}
                 </div>
 
                 {error && <p className="text-red-500 text-sm mt-3">{error}</p>}
                 {!user && <p className="text-yellow-600 text-xs mt-2">{t('saveWarning')}</p>}
             </div>
 
-            <div className="bg-white dark:bg-[#121212] rounded-2xl shadow-modern p-6 transition-colors duration-300">
+            <div ref={resultRef} className="bg-white dark:bg-[#121212] rounded-2xl shadow-modern p-6 transition-colors duration-300">
                 <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4 overflow-x-auto">
                     <button
                         onClick={() => handleTabChange('result')}
@@ -262,14 +289,12 @@ const Home = () => {
 
                 <div className="min-h-[300px]">
                     {activeTab === 'result' && (
-                        loading ? (
-                            <div className="flex flex-col items-center justify-center h-64 text-gray-500">
-                                <Loader2 className="animate-spin text-green-500 h-10 w-10 mb-4" />
-                                <p>{t('calculating')}</p>
-                            </div>
-                        ) : (
-                            <ResultCard result={result} />
-                        )
+                        // Loader moved to modal, just show result if exists
+                        <ResultCard
+                            result={result}
+                            imagePreview={resultImage}
+                            onRegisterClick={() => setAuthModalOpen(true)}
+                        />
                     )}
 
                     {activeTab === 'history' && (

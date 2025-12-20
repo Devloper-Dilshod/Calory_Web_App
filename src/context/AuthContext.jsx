@@ -10,16 +10,35 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            try {
-                setUser(JSON.parse(storedUser));
-            } catch (e) {
-                console.error("Failed to parse user from local storage", e);
-                localStorage.removeItem('user');
+        const initAuth = async () => {
+            const storedUser = localStorage.getItem('user');
+            if (storedUser) {
+                try {
+                    const parsedUser = JSON.parse(storedUser);
+                    setUser(parsedUser);
+
+                    // Fetch fresh data from server
+                    try {
+                        const data = await authAPI.getUser(parsedUser.id);
+                        if (data.success) {
+                            setUser(data.user);
+                            localStorage.setItem('user', JSON.stringify(data.user));
+                        }
+                    } catch (serverError) {
+                        console.error("Failed to fetch fresh user data", serverError);
+                        // If 404, maybe logout? For now, keep local data but maybe mark as unverified?
+                        // Let's safe fail and keep using local data.
+                    }
+
+                } catch (e) {
+                    console.error("Failed to parse user from local storage", e);
+                    localStorage.removeItem('user');
+                }
             }
-        }
-        setLoading(false);
+            setLoading(false);
+        };
+
+        initAuth();
     }, []);
 
     const login = async (username, password) => {

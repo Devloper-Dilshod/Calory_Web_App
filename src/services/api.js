@@ -28,6 +28,7 @@ export const authAPI = {
     login: (username, password) => api.post('auth.php', { action: 'login', username, password }),
     register: (username, password) => api.post('auth.php', { action: 'register', username, password }),
     changePassword: (data) => api.post('auth.php', { action: 'change_password', ...data }),
+    getUser: (user_id) => api.post('auth.php', { action: 'get_user', user_id }),
 };
 
 export const calcAPI = {

@@ -26,8 +26,13 @@
   src: url(https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2) format('woff2');
 }
 
+/* Light Mode default override */
+/* Light Mode default override */
 body {
   font-family: 'Poppins', sans-serif;
+  background-color: #ececec !important;
+  /* Force light mode bg */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Custom styles from original project */
@@ -53,19 +58,21 @@ body {
 
 /* Dark Theme specific overrides */
 .dark body {
-  background-color: #000000 !important;
-  color: #f0f0f0;
+  background-color: #191820 !important;
+  /* User requested dark mode bg */
+  color: #e0e0e0;
 }
 
 .dark .bg-white {
-  background-color: #121212 !important;
+  background-color: #23222b !important;
+  /* Slightly lighter than #191820 */
 }
 
 .dark input,
 .dark textarea {
-  background-color: #1f1f1f !important;
-  border-color: #333 !important;
-  color: #f0f0f0 !important;
+  background-color: #27272a !important;
+  border-color: #3f3f46 !important;
+  color: #e4e4e7 !important;
 }
 
 /* Custom scrollbar */

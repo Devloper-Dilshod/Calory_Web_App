@@ -62,7 +62,13 @@ export const translations = {
         INVALID_INPUT: "Ma'lumotlar to'liq emas.",
         // Detail Modal
         date: "Sana",
-        fiber: "Kletchatka"
+        fiber: "Kletchatka",
+        view: "Ko'rish",
+        loginToUpload: "Rasm yuklash uchun tizimga kiring",
+        estimatedWeight: "Tahminiy og'irligi",
+        nutrients: "Ozuqaviy qiymatlar",
+        keepItUp: "Ajoyib natija, davom eting!",
+        viewFullDetails: "To'liq ma'lumotni ko'rish uchun"
     },
     ru: {
         appName: 'Calory Web App',
@@ -127,7 +133,13 @@ export const translations = {
         INVALID_INPUT: "Данные неполны.",
         // Detail Modal
         date: "Дата",
-        fiber: "Клетчатка"
+        fiber: "Клетчатка",
+        view: "Посмотреть",
+        loginToUpload: "Войдите, чтобы загрузить фото",
+        estimatedWeight: "Примерный вес",
+        nutrients: "Пищевая ценность",
+        keepItUp: "Отличный результат, так держать!",
+        viewFullDetails: "Для просмотра полной информации"
     },
     en: {
         appName: 'Calory Web App',
@@ -192,6 +204,12 @@ export const translations = {
         INVALID_INPUT: "Data incomplete.",
         // Detail Modal
         date: "Date",
-        fiber: "Fiber"
+        fiber: "Fiber",
+        view: "View",
+        loginToUpload: "Login to upload image",
+        estimatedWeight: "Estimated weight",
+        nutrients: "Nutritional Values",
+        keepItUp: "Great job, keep it up!",
+        viewFullDetails: "To view full details"
     }
 };

@@ -34,12 +34,12 @@ const Login = () => {
     // Login formasi
     return (
         <Layout>
-            <div className="max-w-md mx-auto mt-10 bg-white dark:bg-[#121212] p-8 rounded-2xl shadow-modern transition-all duration-300 hover:shadow-2xl animate-fadeIn">
-                <div className="text-center mb-8">
-                    <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100 flex items-center justify-center gap-2">
+            <div className="max-w-md mx-auto mt-4 md:mt-10 bg-white dark:bg-[#23222e] p-6 md:p-8 rounded-2xl shadow-modern transition-all duration-300 hover:shadow-2xl animate-fadeIn border border-gray-100 dark:border-gray-700">
+                <div className="text-center mb-6 md:mb-8">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100 flex items-center justify-center gap-2">
                         <Bolt className="text-yellow-500 animate-bounce-slow" /> {t('login')}
                     </h2>
-                    <p className="text-gray-500 dark:text-gray-400 mt-2">{t('welcome')}</p>
+                    <p className="text-sm md:text-base text-gray-500 dark:text-gray-400 mt-2">{t('welcome')}</p>
                 </div>
 
                 {message.text && (
