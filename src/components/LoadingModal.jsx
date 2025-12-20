@@ -14,11 +14,11 @@ const LoadingModal = ({ isOpen }) => {
                     <Loader2 className="w-10 h-10 text-green-600 dark:text-green-400 animate-spin" />
                     <div className="absolute inset-0 rounded-full border-t-2 border-green-500 animate-spin"></div>
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">
-                    {t('calculating') || "Hisoblanmoqda..."}
+                <h3 className="text-xl font-poppins font-bold text-gray-800 dark:text-gray-100 mb-2">
+                    {t('calculating')}
                 </h3>
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
-                    AI taomni tahlil qilmoqda, iltimos kuting...
+                <p className="text-gray-600 dark:text-gray-300 text-base font-poppins font-medium animate-pulse">
+                    {t('ai_analyzing')}
                 </p>
             </div>
         </div>

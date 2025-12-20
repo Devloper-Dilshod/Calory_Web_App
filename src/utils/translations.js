@@ -68,7 +68,8 @@ export const translations = {
         estimatedWeight: "Tahminiy og'irligi",
         nutrients: "Ozuqaviy qiymatlar",
         keepItUp: "Ajoyib natija, davom eting!",
-        viewFullDetails: "To'liq ma'lumotni ko'rish uchun"
+        viewFullDetails: "To'liq ma'lumotni ko'rish uchun",
+        ai_analyzing: "AI taomni tahlil qilmoqda, iltimos kuting..."
     },
     ru: {
         appName: 'Calory Web App',
@@ -139,7 +140,8 @@ export const translations = {
         estimatedWeight: "Примерный вес",
         nutrients: "Пищевая ценность",
         keepItUp: "Отличный результат, так держать!",
-        viewFullDetails: "Для просмотра полной информации"
+        viewFullDetails: "Для просмотра полной информации",
+        ai_analyzing: "ИИ анализирует еду, пожалуйста, подождите..."
     },
     en: {
         appName: 'Calory Web App',
@@ -210,6 +212,7 @@ export const translations = {
         estimatedWeight: "Estimated weight",
         nutrients: "Nutritional Values",
         keepItUp: "Great job, keep it up!",
-        viewFullDetails: "To view full details"
+        viewFullDetails: "To view full details",
+        ai_analyzing: "AI is analyzing the food, please wait..."
     }
 };
