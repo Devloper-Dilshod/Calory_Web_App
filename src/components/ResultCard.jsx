@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 
 const ResultCard = ({ result, imagePreview, onRegisterClick }) => {
     const { t } = useLanguage();
-    const { user } = useAuth(); // Check user status
+    const { user } = useAuth(); // Userni statusini tekshirish
 
     if (!result) {
         return (
@@ -18,7 +18,7 @@ const ResultCard = ({ result, imagePreview, onRegisterClick }) => {
     return (
         <div className="space-y-6 animate-fadeIn">
             <div className="flex flex-col items-center text-center">
-                {/* Image Display */}
+                {/* Rasmni ko'rish */}
                 {imagePreview && (
                     <div className="w-full max-w-sm mb-4 rounded-xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-800">
                         <img src={imagePreview} alt="Food" className="w-full h-48 object-cover" />
@@ -34,7 +34,7 @@ const ResultCard = ({ result, imagePreview, onRegisterClick }) => {
                 )}
             </div>
 
-            {/* Calories - Always Visible */}
+            {/* Kaloriyalar - Har doim ko'rinadi */}
             <div className="p-6 bg-green-50 dark:bg-green-900/20 rounded-2xl text-center border border-green-100 dark:border-green-800/50">
                 <p className="text-sm text-green-600 dark:text-green-400 font-bold uppercase tracking-wider mb-1">{t('calories')}</p>
                 <p className="text-5xl font-extrabold text-green-600 dark:text-green-400">{Math.round(result.calories)}</p>
