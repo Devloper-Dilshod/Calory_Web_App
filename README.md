@@ -1,114 +1,96 @@
-# Calory Web App - Kaloriya Hisoblagich
+# 🍎 Calory Web App
 
-Sun'iy intellekt yordamida ovqat rasmlarini va matnlarini tahlil qilib, kaloriyalarni hisoblaydigan veb-ilova.
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 
-## 📸 Skrinshot'lar
+**Calory Web App** is an AI-powered nutrition tracking platform that allows users to calculate calories and macronutrients from food images or text descriptions. Built with a focus on speed, simplicity, and cross-platform accessibility.
 
-### Bosh sahifa
-![Bosh sahifa](public/screenshots/home.png)
+---
 
-### Hisoblash
-![Hisoblash](public/screenshots/calculate.png)
+## ✨ Features
 
-### Tarix
-![Tarix](public/screenshots/history.png)
+- **🤖 AI Food Analysis**: Instant calorie and nutrient estimation from photos or text.
+- **🔐 Secure Auth**: User registration and login with hashed passwords.
+- **📊 Detailed Statistics**: Visual charts and graphs for daily nutritional intake.
+- **📜 History Tracking**: Keep a log of everything you eat.
+- **🌐 Multi-language**: Full support for **Uzbek**, **Russian**, and **English**.
+- **🌙 Dark Mode**: Premium dark UI for better nighttime usage.
+- **⚡ Responsive**: Optimized for both mobile and desktop screens.
 
-### Statistika
-![Statistika](public/screenshots/stats.png)
+---
 
-### Qorong'u rejim
-![Qorong'u rejim](public/screenshots/darkmode.png)
+## 🏗️ Architecture
 
-### Profil
-![Profil](public/screenshots/profile.png)
+The app follows a modern client-server architecture:
 
-### Kirish
-![Kirish](public/screenshots/login.png)
+- **Frontend**: React application built with Vite, utilizing Tailwind CSS for styling and Framer Motion for smooth animations.
+- **Backend**: Lightweight PHP REST API serving as a bridge between the frontend and AI services.
+- **Database**: NoSQL-style JSON storage (`backend/db/`) for high portability and zero-config deployment.
+- **AI Engine**: OpenRouter (Nova 2 Lite) for high-accuracy food recognition.
 
-### Ro'yxatdan o'tish
-![Ro'yxatdan o'tish](public/screenshots/register.png)
+---
 
-### Ko'p tillilik (Ingliz tili)
-![Ingliz tili](public/screenshots/language_eng.png)
+## 🚀 Getting Started
 
-### Ko'p tillilik (Rus tili)
-![Rus tili](public/screenshots/laguage_ru.png)
+### Prerequisites
+- **Node.js** (v16+)
+- **PHP** (v7.4+) or **XAMPP/WAMP/MAMP**
 
-## 🌐 Demo
+### Installation
 
-https://calory-web-app.vercel.app/
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/yourusername/Calory_Web_app.git
+   cd Calory_Web_app
+   ```
 
-## 🏗️ Arxitektura
+2. **Backend Setup**:
+   - Move the project folder to your web server root (e.g., `C:\xampp\htdocs\`).
+   - Ensure `backend/db/` is writable by the server.
+   - Configure `backend/api/config.php` with your OpenRouter API key.
 
-Loyiha ikki qismdan iborat:
-
-### 1. Frontend (React + Vite)
-- `frontend/` papkasida joylashgan
-- React, Tailwind CSS va Axios yordamida qurilgan
-- Foydalanuvchi interfeysi, autentifikatsiya va ma'lumotlarni vizualizatsiya qilish
-
-### 2. Backend (PHP)
-- `backend/` papkasida joylashgan
-- Oddiy PHP API (`api/`) va JSON fayllari (`db/`) orqali ma'lumotlarni saqlash
-- Umumiy hosting xizmatlarida (AlwaysData, XAMPP) ishlatish uchun mo'ljallangan
-
-## 🚀 O'rnatish va mahalliy ishga tushirish
-
-### Talablar
-- Node.js (Frontend uchun)
-- PHP / XAMPP (Backend uchun)
-
-### 1-qadam: Backend sozlash
-1. XAMPP ishga tushirilganligiga ishonch hosil qiling (Apache)
-2. Loyiha `c:\xampp\htdocs` papkasida bo'lishi kerak
-3. Backend API manzili: `http://localhost/Calory_Web_app/backend/api/`
-
-### 2-qadam: Frontend sozlash
-1. Terminal orqali `frontend/` papkasiga o'ting:
-   ```sh
+3. **Frontend Setup**:
+   ```bash
    cd frontend
-   ```
-2. Kerakli kutubxonalarni o'rnating:
-   ```sh
    npm install
-   ```
-3. Ishlab chiqish serverini ishga tushiring:
-   ```sh
    npm run dev
    ```
-4. Brauzerda ko'rsatilgan manzilda ilovani oching (odatda `http://localhost:5173`)
 
-## 📦 Joylashtirish (Deployment)
+4. **Configuration**:
+   - Update `frontend/src/services/api.js` with your backend URL.
 
-### Frontend (Vercel)
-- `frontend` papkasini Vercel'ga yuklang
-- Build buyrug'i: `npm run build`
-- Chiqish papkasi: `dist`
+---
 
-### Backend (AlwaysData yoki boshqa PHP hosting)
-- `backend` papkasini PHP hosting'ga yuklang
-- `frontend/src/services/api.js` faylidagi API manzilini yangilang
+## 📂 Project Structure
 
-## ✨ Imkoniyatlar
+```text
+├── backend/
+│   ├── api/          # PHP API Endpoints (Auth, Calculate, Data)
+│   └── db/           # JSON Storage (users.json, history.json)
+├── frontend/
+│   ├── src/
+│   │   ├── components/ # Reusable React components
+│   │   ├── pages/      # Main application views
+│   │   ├── services/   # Axios API service
+│   │   └── utils/      # Translations & Helpers
+│   └── public/       # Static assets
+└── architecture.txt  # Detailed architecture documentation
+```
 
-- **Sun'iy intellekt bilan hisoblash**: Matn yoki rasm orqali kaloriyalarni baholash
-- **Foydalanuvchi tizimi**: Ro'yxatdan o'tish va kirish
-- **Qorong'u rejim**: To'liq qo'llab-quvvatlanadi
-- **Statistika**: Diagrammalar va kunlik tahlil
-- **Ko'p tillilik**: O'zbek, Rus va Ingliz tillari
+---
 
-## 🛠️ Texnologiyalar
+## 🛠️ Tech Stack
 
-**Frontend:**
-- React 18
-- Vite
-- Tailwind CSS
-- Axios
-- Chart.js
-- Lucide Icons
+- **Frontend**: React, Vite, Tailwind CSS, Lucide React, Chart.js, Axios.
+- **Backend**: PHP, JSON.
+- **AI**: OpenRouter (amazon/nova-2-lite-v1).
 
-**Backend:**
-- PHP
-- JSON fayl bazasi
-- Open Router APi
+---
 
+## 📄 License
+This project is open-source and available under the MIT License.
+
+---
+*Developed with ❤️ by [Your Name/Team]*

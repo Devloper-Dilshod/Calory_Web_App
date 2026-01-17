@@ -1,8 +1,13 @@
 import axios from 'axios';
 
 
-// Server URL manzilini o'zgartirish (AlwaysData yoki mahalliy server uchun)
-const API_BASE_URL = 'https://dilshodsayfiddinov12.alwaysdata.net/calory-app';
+const isDevelopment = import.meta.env.MODE === 'development';
+
+
+const API_BASE_URL = import.meta.env.VITE_API_URL ||
+    (isDevelopment
+        ? 'http://localhost/Calory_Web_app/backend/api/'
+        : 'https://dilshodsayfiddinov12.alwaysdata.net/calory-app/');
 
 const api = axios.create({
     baseURL: API_BASE_URL,
@@ -11,16 +16,13 @@ const api = axios.create({
     },
 });
 
+// Interceptors for standardized responses
 api.interceptors.response.use(
-    (response) => {
-        // API javoblarini qabul qilish va ularni standartlashtirish
-        return response.data;
-    },
+    (response) => response.data,
     (error) => {
-        if (error.response && error.response.data) {
-            return Promise.reject(error.response.data);
-        }
-        return Promise.reject(error);
+        const errorData = error.response?.data || { message: 'Tarmoq xatosi yuz berdi' };
+        console.error('API Error:', errorData);
+        return Promise.reject(errorData);
     }
 );
 
@@ -32,7 +34,8 @@ export const authAPI = {
 };
 
 export const calcAPI = {
-    calculate: (prompt, imageData, language = 'uz') => api.post('calculate.php', { prompt, image_data: imageData, language }),
+    calculate: (prompt, imageData, language = 'uz') =>
+        api.post('calculate.php', { prompt, image_data: imageData, language }),
 };
 
 export const dataAPI = {
