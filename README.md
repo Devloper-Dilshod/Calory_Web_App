@@ -1,96 +1,107 @@
-# 🍎 Calory Web App
+# 🍎 Calory Web App — AI Ozuqa Nazorati
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 
-**Calory Web App** is an AI-powered nutrition tracking platform that allows users to calculate calories and macronutrients from food images or text descriptions. Built with a focus on speed, simplicity, and cross-platform accessibility.
+**Calory Web App** — bu sun'iy intellekt (AI) yordamida taomlar kaloriyasini va ozuqaviy qiymatini hisoblovchi zamonaviy platforma. Foydalanuvchilar taom rasmini yuklash yoki matnli tavsif kiritish orqali bir necha soniya ichida oqsillar, yog'lar va uglevodlar haqida to'liq ma'lumot olishlari mumkin.
 
 ---
 
-## ✨ Features
+## ✨ Imkoniyatlar
 
-- **🤖 AI Food Analysis**: Instant calorie and nutrient estimation from photos or text.
-- **🔐 Secure Auth**: User registration and login with hashed passwords.
-- **📊 Detailed Statistics**: Visual charts and graphs for daily nutritional intake.
-- **📜 History Tracking**: Keep a log of everything you eat.
-- **🌐 Multi-language**: Full support for **Uzbek**, **Russian**, and **English**.
-- **🌙 Dark Mode**: Premium dark UI for better nighttime usage.
-- **⚡ Responsive**: Optimized for both mobile and desktop screens.
-
----
-
-## 🏗️ Architecture
-
-The app follows a modern client-server architecture:
-
-- **Frontend**: React application built with Vite, utilizing Tailwind CSS for styling and Framer Motion for smooth animations.
-- **Backend**: Lightweight PHP REST API serving as a bridge between the frontend and AI services.
-- **Database**: NoSQL-style JSON storage (`backend/db/`) for high portability and zero-config deployment.
-- **AI Engine**: OpenRouter (Nova 2 Lite) for high-accuracy food recognition.
+- **🤖 AI Tahlil**: Rasm yoki matn orqali taom tarkibini aniqlash.
+- **🔐 Xavfsiz tizim**: Foydalanuvchi bo'lib ro'yxatdan o'tish va parollarni xavfsiz saqlash.
+- **📊 Statistika**: Kunlik iste'mol qilingan kaloriyalarni diagrammalar yordamida kuzatish.
+- **📜 Tarix**: Barcha yozuvlarni shaxsiy arxivda saqlash.
+- **🌐 Ko'p tillilik**: O'zbek, Rus va Ingliz tillarini to'liq qo'llab-quvvatlaydi.
+- **🌙 Tungi rejim (Dark Mode)**: Ko'zga qulay qorong'u interfeys.
+- **📱 Responsiv dizayn**: Mobil qurilmalar va kompyuterlar uchun moslashgan.
 
 ---
 
-## 🚀 Getting Started
+## 🏗️ Arxitektura (To'liq ma'lumot)
 
-### Prerequisites
-- **Node.js** (v16+)
-- **PHP** (v7.4+) or **XAMPP/WAMP/MAMP**
+Loyiha modulli va kengaytiriladigan "Mijoz-Server" modelida qurilgan:
 
-### Installation
+### 1. Frontend (Mijoz qismi)
+React va Vite yordamida yig'ilgan bo'lib, yuqori tezlikni ta'minlaydi. 
+- **Stillashtirish**: Tailwind CSS orqali zamonaviy dizayn.
+- **Animatsiyalar**: Framer Motion yordamida silliq o'tishlar.
+- **API Aloqa**: Axios orqali Backend bilan bog'lanish.
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/yourusername/Calory_Web_app.git
-   cd Calory_Web_app
-   ```
+### 2. Backend (Server qismi)
+Yengil va tezkor PHP API yordamida ishlaydi.
+- **Markazlashgan konfiguratsiya**: `api/config.php` orqali barcha sozlamalar boshqariladi.
+- **Xavfsiz CORS**: Faqat ruxsat etilgan so'rovlarni qabul qiladi.
 
-2. **Backend Setup**:
-   - Move the project folder to your web server root (e.g., `C:\xampp\htdocs\`).
-   - Ensure `backend/db/` is writable by the server.
-   - Configure `backend/api/config.php` with your OpenRouter API key.
+### 3. Ma'lumotlar bazasi (Storage)
+Loyiha ko'chuvchanligini ta'minlash uchun **JSON NoSQL** tizimidan foydalanilgan.
+- `/backend/db/users.json` — Foydalanuvchilar bazasi.
+- `/backend/db/history.json` — Ovqatlanish kundaligi.
 
-3. **Frontend Setup**:
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
-
-4. **Configuration**:
-   - Update `frontend/src/services/api.js` with your backend URL.
+### 4. Sun'iy Intellekt
+**OpenRouter (Nova 2 Lite)** modeli orqali taomlarni tahlil qiladi. Yuqori aniqlik va tezkor javob berish imkoniyatiga ega.
 
 ---
 
-## 📂 Project Structure
+## 📂 Loyiha tuzilishi
 
 ```text
 ├── backend/
-│   ├── api/          # PHP API Endpoints (Auth, Calculate, Data)
-│   └── db/           # JSON Storage (users.json, history.json)
+│   ├── api/          # PHP API (Auth, Calculate, Data)
+│   ├── db/           # JSON bazalar (users.json, history.json)
+│   └── .htaccess     # Xavfsizlik sozlamalari
 ├── frontend/
 │   ├── src/
-│   │   ├── components/ # Reusable React components
-│   │   ├── pages/      # Main application views
-│   │   ├── services/   # Axios API service
-│   │   └── utils/      # Translations & Helpers
-│   └── public/       # Static assets
-└── architecture.txt  # Detailed architecture documentation
+│   │   ├── components/ # Foydalanuvchi interfeysi elementlari
+│   │   ├── pages/      # Asosiy sahifalar (Home, Profile, Login)
+│   │   ├── services/   # API bilan ishlash (Axios instance)
+│   │   └── utils/      # Tarjimalar va yordamchi funksiyalar
+│   └── public/       # Statik fayllar va rasmlar
+└── architecture.txt  # Loyihaning to'liq texnik tavsifi
 ```
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 Ishga tushirish (Installation)
 
-- **Frontend**: React, Vite, Tailwind CSS, Lucide React, Chart.js, Axios.
-- **Backend**: PHP, JSON.
-- **AI**: OpenRouter (amazon/nova-2-lite-v1).
+### Kerakli texnologiyalar:
+- **Node.js** (v16 yoki undan yuqori)
+- **PHP** (v7.4 yoki undan yuqori) yoki **XAMPP/WAMP**
+
+### 1. Loyihani yuklab olish
+```bash
+git clone https://github.com/Devloper-Dilshod/Calory_Web_App.git
+cd Calory_Web_app
+```
+
+### 2. Backendni sozlash
+- Loyihani PHP serveringizga (masalan, `C:\xampp\htdocs\`) joylashtiring.
+- `backend/api/config.php` faylida o'z OpenRouter API kalitingizni kiriting.
+- `backend/db/` papkasiga yozish (write) huquqi borligini tekshiring.
+
+### 3. Frontendni sozlash
+```bash
+cd frontend
+npm install   # Kerakli kutubxonalarni o'rnatish
+npm run dev   # Loyihani ishga tushirish
+```
+
+### 4. API manzili
+- `frontend/src/services/api.js` faylini oching va `API_BASE_URL` qismida o'zingizning backend manzilingizni tekshiring.
 
 ---
 
-## 📄 License
-This project is open-source and available under the MIT License.
+## 🛠️ Texnologiyalar to'plami
+
+- **Frontend**: React, Vite, Tailwind CSS, Lucide Icons, Chart.js.
+- **Backend**: PHP 7.4+ core API.
+- **AI Integration**: OpenRouter API.
 
 ---
-*Developed with ❤️ by [Your Name/Team]*
+
+
+---
+* Dilshod Sayfiddinov tomonidan  yaratilgan*
