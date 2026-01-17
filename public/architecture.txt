@@ -1,0 +1,52 @@
+[Calory Web Ilovasi Arxitekturasi]
+
+1. Loyiha haqida:
+   Calory Web App – bu foydalanuvchilarning kunlik ovqatlanish ratsionini kuzatib borishga mo'ljallangan zamonaviy platforma. 
+   Ilova taomlarni tahlil qilish (rasm va matn orqali) uchun sun'iy intellektdan foydalanadi hamda sog'liqni nazorat qilish uchun qulay va moslashuvchan interfeys taqdim etadi.
+
+2. Texnologiyalar:
+   - Frontend: 
+     - React (Vite asosida)
+     - Tailwind CSS (Stillashtirish uchun)
+     - Lucide React (Ikonkalar)
+     - Framer Motion (Animatsiyalar uchun)
+     - Axios (API so'rovlar uchun)
+   - Backend:
+     - PHP (REST API xizmati)
+     - JSON Storage (Loyiha ko'chuvchanligini ta'minlash uchun mahalliy faylli ma'lumotlar bazasi)
+   - AI Integratsiyasi:
+     - OpenRouter API (Nova 2 Lite modeli) – kaloriyalar va makronutrientlarni hisoblash uchun.
+
+3. Papkalar tuzilishi:
+   /backend
+     /api
+       - auth.php      : Ro'yxatdan o'tish, tizimga kirish va parollarni boshqarish.
+       - config.php    : Asosiy sozlamalar (API kalitlar, fayl yo'llari).
+       - calculate.php : AI orqali taomlarni tahlil qilish (matn va rasmlarni qayta ishlash).
+       - data.php      : Foydalanuvchi tarixini saqlash va yuklash.
+       - cors.php      : Turli domenlardan keladigan so'rovlarni boshqarish.
+     /db
+       - users.json    : Foydalanuvchilar ma'lumotlari (parollar xesh qilingan holda).
+       - history.json  : Barcha ovqatlanish yozuvlari va foydalanuvchi hisoblari.
+   /frontend
+     /src
+       /components     : Qayta ishlatiladigan UI elementlar (Modallar, Chartlar).
+       /context        : Global sessiyalarni boshqarish (AuthContext).
+       /pages          : Asosiy sahifalar (Asosiy, Profil, Tarix, Kirish).
+       /services       : Backend bilan aloqa qiluvchi qatlamlar.
+       /utils          : Yordamchi funksiyalar va tarjimalar (UZ, RU, EN).
+     - App.jsx         : Ilovaning asosiy marshrutlash qismi.
+     - index.css       : Tailwind va global stillar.
+
+4. Ish jarayoni (Data Flow):
+   1. Foydalanuvchi rasm yuklaydi yoki taom nomini yozadi.
+   2. Frontend bu ma'lumotni /api/calculate.php manziliga yuboradi.
+   3. Backend so'rovni OpenRouter AI xizmatiga yo'naltiradi.
+   4. AI dan kelgan JSON javob Frontendga qaytariladi.
+   5. Foydalanuvchi natijani tasdiqlasa, ma'lumotlar /api/data.php orqali bazaga saqlanadi.
+   6. Yozuv history.json fayliga qo'shiladi.
+
+5. Xavfsizlik:
+   - Parollarni xesh qilish (BCRYPT algoritmi).
+   - Tarixni faqat foydalanuvchining shaxsiy ID-si bo'yicha filtrlash.
+   - CORS orqali ruxsatsiz kirishlarni cheklash.
