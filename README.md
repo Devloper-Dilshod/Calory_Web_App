@@ -28,7 +28,8 @@ Sun'iy intellekt yordamida taomlar kaloriyasini va ozuqaviy qiymatini hisoblovch
 
 Loyiha quyidagi texnologiyalar asosida qurilgan:
 
-- **Frontend**: React (Vite), Tailwind CSS, Framer Motion, Axios.
+- **Frontend**: React (Vite), Tailwind CSS, Framer Motion, Axi
+os.
 - **Backend**: PHP 7.4+ (REST API).
 - **Ma'lumotlar bazasi**: JSON (NoSQL formatida).
 - **AI**: OpenRouter (Nova 2 Lite modeli).
